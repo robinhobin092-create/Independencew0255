@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Independence Day 2025! 🇮🇳</title>
+    <style>
+        /* General Body and Container Styling */
+        body {
+            margin: 0;
+            padding-top: 70px; /* Added padding for the fixed top ad banner */
+            padding-bottom: 70px; /* Added padding for the fixed bottom ad banner */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); /* Indian flag inspired gradient */
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            box-sizing: border-box;
+            line-height: 1.6;
+            position: relative; /* Needed for z-index context of effects */
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1); /* Subtle glassmorphism base */
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 25px;
+            margin: 20px;
+            max-width: 450px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            animation: fadeInContainer 1.5s ease-out forwards;
+            z-index: 100; /* Ensure container is on top of background effects, below fireworks */
+            position: relative; /* For z-index to work correctly */
+        }
+
+        /* GIF Image Styling */
+        .responsive-gif {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            margin-bottom: 25px;
+        }
+
+        /* Greeting Text Styling */
+        .greeting-text {
+            font-size: clamp(1.8rem, 5vw, 2.5rem); /* Responsive font size */
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, #FF9933, #FFFFFF, #138808); /* Indian flag colors */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: textFadeIn 2s ease-out forwards;
+            line-height: 1.3; /* Adjusted line-height for better multi-line appearance */
+        }
+
+        /* Input Field Styling */
+        .name-input {
+            width: calc(100% - 30px); /* Adjust for padding */
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .name-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: #fdbb2d;
+            box-shadow: 0 0 15px rgba(253, 187, 45, 0.6);
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Button Styling */
+        .generate-button, .whatsapp-button {
+            width: 100%;
+            padding: 14px 20px;
+            margin-bottom: 15px;
+            border: 2px solid;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .generate-button {
+            border-image: linear-gradient(to right, #00d4ff, #ff007f) 1;
+            background: linear-gradient(to right, #ff007f, #00d4ff);
+        }
+
+        .generate-button:hover, .whatsapp-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            opacity: 0.9;
+        }
+
+        .generate-button:active, .whatsapp-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .generate-button::before, .whatsapp-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            transform: skewX(-20deg);
+        }
+
+        .generate-button:hover::before, .whatsapp-button:hover::before {
+            left: 100%;
+        }
+
+        /* WhatsApp Button specific styling */
+        .whatsapp-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(to right, #25D366, #128C7E); /* WhatsApp green */
+            border-image: linear-gradient(to right, #128C7E, #25D366) 1;
+            margin-top: 15px; /* Spacing from custom greeting */
+            visibility: hidden; /* Hidden by default */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInUp 0.6s ease-out forwards; /* Applied when shown */
+        }
+
+        .whatsapp-button.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .whatsapp-icon {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+        }
+
+        /* Custom Greeting Message Styling */
+        .custom-greeting-message {
+            font-size: clamp(1.1rem, 4vw, 1.4rem);
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0; /* Hidden by default */
+            transform: translateY(10px);
+            animation: fadeInMessage 0.8s ease-out forwards; /* Applied when text is set */
+            max-width: 100%;
+            word-wrap: break-word; /* Ensure long names wrap */
+        }
+
+        .custom-greeting-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Audio Controls */
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 25px;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            width: calc(100% - 30px);
+            box-sizing: border-box;
+            z-index: 101; /* Ensure controls are always visible on top of container */
+            position: relative; /* For z-index to work correctly */
+        }
+
+        .mute-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .mute-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .volume-slider {
+            width: 70%;
+            -webkit-appearance: none;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            outline: none;
+            transition: opacity .2s;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fdbb2d;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            border: 2px solid #fff;
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fdbb2d;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            border: 2px solid #fff;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeInContainer {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes textFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+                filter: blur(5px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes sparklePulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeInMessage {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Confetti Effect */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allow clicks through */
+            overflow: hidden; /* Hide confetti falling off screen */
+            z-index: 98; /* Below the main container */
+        }
+
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #f00; /* Default color */
+            border-radius: 50%; /* Make them circles or squares for variety */
+            opacity: 0;
+            animation: confettiFall linear infinite;
+        }
+
+        .confetti.square {
+            border-radius: 0;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-10px) rotateZ(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh) rotateZ(720deg); opacity: 0; }
+        }
+
+        /* Firework Burst Effect */
+        .firework-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 102; /* Now ON TOP of the main container (100) */
+        }
+
+        .firework {
+            position: absolute;
+            width: 5px; /* Size of the core burst */
+            height: 5px;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0);
+            animation: fireworkBurst 1.8s ease-out forwards; /* Slightly faster for more bursts */
+            filter: blur(2px); /* Soften the edges */
+        }
+
+        @keyframes fireworkBurst {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+                box-shadow: 0 0 0 0px rgba(255, 255, 255, 0);
+            }
+            10% {
+                opacity: 1;
+                transform: scale(0.1); /* Small initial pop */
+                box-shadow: 0 0 50px 10px rgba(255, 255, 255, 0.8),
+                            0 0 80px 20px rgba(255, 255, 0, 0.6),
+                            0 0 100px 30px rgba(255, 0, 0, 0.5); /* Multi-color glow */
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(0.5); /* Larger glow */
+                box-shadow: 0 0 100px 20px rgba(255, 255, 255, 0.6),
+                            0 0 120px 30px rgba(255, 255, 0, 0.4),
+                            0 0 150px 40px rgba(255, 0, 0, 0.3);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1); /* Fades out while expanding */
+                box-shadow: 0 0 0 0px rgba(255, 255, 255, 0);
+            }
+        }
+
+        /* Ad Banner Styling (Bottom) */
+        #ad-banner-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* Ad height */
+            background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background for ad */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999; /* Ensure it's on top of everything else */
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Ad Banner Styling (Top - NEW) */
+        #ad-banner-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* Ad height */
+            background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background for ad */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999; /* Ensure it's on top of everything else */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #ad-banner-bottom iframe,
+        #ad-banner-top iframe {
+            display: block; /* Important for iframes to remove extra space */
+            margin: 0 auto; /* Center iframe content */
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 400px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            .greeting-text {
+                font-size: clamp(1.5rem, 6vw, 2.2rem);
+            }
+
+            .generate-button, .whatsapp-button {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+
+            .custom-greeting-message {
+                font-size: clamp(1rem, 4.5vw, 1.2rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ad Banner at the top (NEW) -->
+    <div id="ad-banner-top">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : 'c13c45c20595cfd026057a07d200ffec',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/c13c45c20595cfd026057a07d200ffec/invoke.js"></script>
+    </div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container">
+        <!-- Confetti elements dynamically created by JS for more variation and continuous fall -->
+    </div>
+
+    <!-- Firework Container (now on top) -->
+    <div class="firework-container">
+        <!-- Firework elements dynamically created by JS for initial burst and on generate -->
+    </div>
+
+    <div class="container">
+        <!-- 1. GIF Image -->
+        <img src="image_search_1754233604008.gif" alt="Festive Independence Day" class="responsive-gif">
+
+        <!-- 2. Festive Greeting Text (Corrected line breaks and removed emojis) -->
+        <h1 class="greeting-text">
+            HAPPY<br>
+            INDEPENDENCE DAY!<br>
+            THIS AUGUST<br>
+            INDEPENDENCE DAY<br>
+            BRING JOY, PEACE, AND<br>
+            PROSPERITY TO ALL!
+        </h1>
+
+        <!-- 3. Text Input Field for Name -->
+        <input type="text" id="userName" placeholder="Enter your name here" class="name-input">
+
+        <!-- 4. "Generate Independence Day" Button -->
+        <button id="generateBtn" class="generate-button">Generate Your Greeting</button>
+
+        <!-- Custom Happy Independence Greeting Message (Initially Hidden) -->
+        <p id="customGreeting" class="custom-greeting-message"></p>
+
+        <!-- 5. "Share on WhatsApp" Button -->
+        <button id="shareWhatsappBtn" class="whatsapp-button">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Icon" class="whatsapp-icon">
+            Share on WhatsApp
+        </button>
+
+        <!-- 6. Background Music -->
+        <audio id="backgroundMusic" src="song.mp3" autoplay loop preload="auto"></audio>
+        
+        <!-- Volume Control and Mute Toggle -->
+        <div class="audio-controls">
+            <button id="muteToggle" class="mute-button">Mute</button>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" class="volume-slider" aria-label="Volume">
+        </div>
+    </div>
+
+    <!-- Ad Banner at the bottom -->
+    <div id="ad-banner-bottom">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : 'c13c45c20595cfd026057a07d200ffec',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/c13c45c20595cfd026057a07d200ffec/invoke.js"></script>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userNameInput = document.getElementById('userName');
+            const generateBtn = document.getElementById('generateBtn');
+            const customGreetingDisplay = document.getElementById('customGreeting');
+            const shareWhatsappBtn = document.getElementById('shareWhatsappBtn');
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const muteToggleBtn = document.getElementById('muteToggle');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const confettiContainer = document.querySelector('.confetti-container');
+            const fireworkContainer = document.querySelector('.firework-container');
+
+            // --- Audio Control ---
+            let isMuted = false;
+
+            // Set initial volume from slider
+            backgroundMusic.volume = volumeSlider.value;
+
+            // Attempt to play on load, but also offer controls.
+            // A common workaround is to play on a user's first interaction.
+            const playAudio = () => {
+                backgroundMusic.play().catch(e => {
+                    console.log("Autoplay prevented:", e.message);
+                });
+            };
+
+            // Attempt to play on DOMContentLoaded
+            playAudio();
+
+            // Also try to play on any user interaction with the page to bypass autoplay restrictions
+            document.body.addEventListener('click', playAudio, { once: true });
+            document.body.addEventListener('touchstart', playAudio, { once: true });
+
+
+            muteToggleBtn.addEventListener('click', () => {
+                if (backgroundMusic.muted) {
+                    backgroundMusic.muted = false;
+                    muteToggleBtn.textContent = 'Mute';
+                    // Restore volume to slider value if it was muted
+                    backgroundMusic.volume = volumeSlider.value;
+                    volumeSlider.disabled = false;
+                } else {
+                    backgroundMusic.muted = true;
+                    muteToggleBtn.textContent = 'Unmute';
+                    volumeSlider.disabled = true; // Disable slider when muted
+                }
+                isMuted = backgroundMusic.muted;
+            });
+
+            volumeSlider.addEventListener('input', () => {
+                // If the user manually changes volume, ensure it's not muted
+                if (backgroundMusic.muted) {
+                    backgroundMusic.muted = false;
+                    muteToggleBtn.textContent = 'Mute';
+                    isMuted = false;
+                }
+                backgroundMusic.volume = volumeSlider.value;
+            });
+
+            // --- Generate Greeting ---
+            generateBtn.addEventListener('click', () => {
+                const name = userNameInput.value.trim();
+                const displayName = name || 'एक देशभक्त नागरिक'; // Default if name is empty (in Hindi)
+
+                // Updated Hindi greeting message
+                const greetingMessage = `${displayName} की ओर से 🇮🇳 स्वतंत्रता दिवस की हार्दिक शुभकामनाएं!
+आज का दिन उन वीरों को नमन करने का है जिन्होंने हमें आज़ादी दिलाई।
+आइए, हम सब मिलकर संकल्प लें कि हम अपने भारत को और बेहतर बनाएंगे।
+जय हिन्द, वंदे मातरम्! 🇮🇳`;
+                
+                customGreetingDisplay.textContent = greetingMessage;
+                customGreetingDisplay.classList.add('show'); // Trigger fade-in animation
+
+                // Show WhatsApp button after generating greeting
+                shareWhatsappBtn.classList.add('show');
+
+                // Trigger celebration effect when the button is clicked
+                triggerCelebrationEffectForGreeting();
+            });
+
+            // --- Share on WhatsApp ---
+            shareWhatsappBtn.addEventListener('click', () => {
+                const generatedMessage = customGreetingDisplay.textContent;
+                // Fallback message if for some reason customGreeting is empty
+                const finalMessage = generatedMessage || `🇮🇳 स्वतंत्रता दिवस की हार्दिक शुभकामनाएं! आज का दिन उन वीरों को नमन करने का है जिन्होंने हमें आज़ादी दिलाई। आइए, हम सब मिलकर संकल्प लें कि हम अपने भारत को और बेहतर बनाएंगे। जय हिन्द, वंदे मातरम्! 🇮🇳`;
+                
+                const pageUrl = window.location.href;
+                // Using double encodeURIComponent for better handling of multi-line and special characters in WhatsApp
+                const whatsappText = encodeURIComponent(`${finalMessage}\n\nयह ग्रीटिंग देखें: ${pageUrl}`);
+                
+                // Use whatsapp://send for better mobile app integration
+                window.location.href = `whatsapp://send?text=${whatsappText}`;
+            });
+
+            // --- Dynamic Celebration Effects ---
+
+            // Function to create a single confetti piece
+            const createConfetti = () => {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                if (Math.random() > 0.5) confetti.classList.add('square'); // Randomly make some square
+
+                const colors = ['#FF9933', '#FFFFFF', '#138808', '#000080']; // Saffron, White, Green, Navy Blue for Ashoka Chakra
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.animationDuration = `${Math.random() * 3 + 2}s`; // 2 to 5 seconds
+                confetti.style.animationDelay = `${Math.random() * 0.5}s`; // Slight delay variation
+                confettiContainer.appendChild(confetti);
+
+                // Remove confetti after it falls off screen to prevent DOM clutter
+                confetti.addEventListener('animationend', () => {
+                    confetti.remove();
+                });
+            };
+
+            // Periodically add confetti for a continuous effect (initial page load)
+            setInterval(createConfetti, 150); // Add a new piece every 150ms
+
+            // Function to create a single firework
+            const createFirework = (x, y, delay = 0) => {
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                firework.style.left = `${x}vw`;
+                firework.style.top = `${y}vh`;
+                firework.style.animationDelay = `${delay}s`; // Control when it bursts
+                fireworkContainer.appendChild(firework);
+
+                // Remove firework after its animation to prevent DOM clutter
+                firework.addEventListener('animationend', () => {
+                    firework.remove();
+                });
+            };
+
+            // Trigger an initial burst of fireworks on page load (hero section)
+            const triggerInitialFireworks = () => {
+                const numberOfFireworks = 8;
+                for (let i = 0; i < numberOfFireworks; i++) {
+                    const randomX = Math.random() * 100;
+                    // Limit Y to the top half/two-thirds of the screen for "hero section" effect
+                    const randomY = Math.random() * 60; // Max 60vh from top
+                    const randomDelay = Math.random() * 1.5; // Stagger bursts over 1.5 seconds
+                    createFirework(randomX, randomY, randomDelay);
+                }
+            };
+
+            // New: Trigger a smaller, more focused celebration effect when greeting is generated
+            const triggerCelebrationEffectForGreeting = () => {
+                const numberOfSmallFireworks = 5;
+                const buttonRect = generateBtn.getBoundingClientRect();
+                const centerX = (buttonRect.left + buttonRect.right) / 2;
+                const centerY = (buttonRect.top + buttonRect.bottom) / 2;
+
+                for (let i = 0; i < numberOfSmallFireworks; i++) {
+                    // Create fireworks around the button/greeting area
+                    const randomX = (centerX / window.innerWidth * 100) + (Math.random() * 20 - 10); // +/- 10vw around button center
+                    const randomY = (centerY / window.innerHeight * 100) + (Math.random() * 15 - 7.5); // +/- 7.5vh around button center
+                    const randomDelay = Math.random() * 0.5; // Quick burst
+                    createFirework(randomX, randomY, randomDelay);
+                }
+                // Also a quick burst of confetti
+                for (let i = 0; i < 20; i++) {
+                    createConfetti();
+                }
+            };
+
+
+            // Call the initial firework trigger when the page loads
+            triggerInitialFireworks();
+        });
+    </script>
+</body>
+</html>
